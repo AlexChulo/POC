@@ -1,7 +1,3 @@
-Sure! Here's a `README.md` file with just the setup instructions and no code.
-
----
-
 # Image Classification with Learning Feedback
 
 This project demonstrates how to use `ml5.js` for image classification with an interactive feedback system. Users can upload an image, get a classification prediction, provide feedback if the prediction is correct or not, and if the prediction is incorrect, the user can supply the correct label, which will be saved for future use.
@@ -94,7 +90,3 @@ Feedback data (incorrect classifications and correct labels) is saved in the bro
 ## Conclusion
 
 This project showcases how you can implement an image classification system that allows users to provide feedback and "teach" the system by entering correct labels for incorrect predictions. The feedback data is saved in `localStorage`, allowing users to keep track of incorrect classifications and the correct labels.
-
----
-
-Let me know if you need anything else!
