@@ -23,7 +23,7 @@ You can either clone or download this repository to your local machine.
 To clone the repository, run:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/AlexChulo/POC
 ```
 
 Alternatively, you can download the project files directly and extract them to a folder.
