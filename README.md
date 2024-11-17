@@ -97,4 +97,4 @@ Feedback data (incorrect classifications and correct labels) is saved in the bro
 ## Conclusion
 
 This project provides an interactive image classification system that allows users to provide feedback on predictions. While learning from feedback is a planned feature, the system currently saves feedback data in `localStorage` for future analysis. This offers users a way to interact with the system and track the correctness of classifications.
-```
+
