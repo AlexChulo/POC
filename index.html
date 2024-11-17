@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Image Classification with Learning</title>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: green;
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 400px;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #feedback-section {
+            margin-top: 20px;
+        }
+
+        #correct-input {
+            display: none;
+        }
+
+        input[type="file"] {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Classification with Learning</h1>
+    <input type="file" id="file-input" accept="image/*">
+    <br>
+    <img id="image" src="" alt="Image">
+    <p id="result"></p>
+
+    <div id="feedback-section">
+
+        <div id="correct-input">
+            <label for="correct-label">What is this image?</label>
+            <input type="text" id="correct-label" placeholder="Enter correct label">
+            <button onclick="saveCorrectLabel()">Save Label</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
