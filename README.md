@@ -1,13 +1,14 @@
+
 # Image Classification with Learning Feedback
 
-This project demonstrates how to use `ml5.js` for image classification with an interactive feedback system. Users can upload an image, get a classification prediction, provide feedback if the prediction is correct or not, and if the prediction is incorrect, the user can supply the correct label, which will be saved for future use.
+This project demonstrates how to use `ml5.js` for image classification with an interactive feedback system. Users can upload an image, get a classification prediction, and provide feedback on whether the prediction is correct or not. If the prediction is incorrect, users can supply the correct label, which will be saved for future reference.
 
 ## Features
 
 - **Image Upload**: Users can upload an image to be classified.
 - **Image Classification**: The app uses the `MobileNet` model from `ml5.js` to classify the image.
 - **Feedback Mechanism**: Users can provide feedback on whether the classification was correct or not.
-- **Learning from Feedback**: If the classification is incorrect, users can input the correct label, which is then saved locally for future reference.
+- **Future Learning from Feedback**: Plans to implement a learning system where user-provided labels will be used to retrain the model or for future analysis (to be developed).
 
 ## Requirements
 
@@ -62,7 +63,7 @@ Your project directory should look like this:
 
 #### Saving Correct Labels
 - When a user provides a correct label for an incorrect prediction, the data (including the original prediction and the correct label) is saved in the browser’s `localStorage`.
-- This data can be used for further analysis or improvements in the future.
+- This data can be used for future analysis or potentially for retraining the model in future updates (roadmap feature).
 
 #### Example Steps:
 1. Upload an image.
@@ -87,6 +88,13 @@ Feedback data (incorrect classifications and correct labels) is saved in the bro
 3. Under **Storage**, click on **LocalStorage**.
 4. Look for the key `feedbackData` to see the stored feedback.
 
+## Roadmap
+
+- **Learning from Feedback**: In the future, we plan to implement a learning system where the feedback data (incorrect classifications and correct labels) will be used to improve the model. This could involve retraining the model with the user-provided labels or analyzing the feedback data to improve future predictions.
+  
+- **Custom Model Training**: Eventually, the project will support retraining or fine-tuning the model with new data provided by users. This feature will allow users to enhance the model's accuracy over time.
+
 ## Conclusion
 
-This project showcases how you can implement an image classification system that allows users to provide feedback and "teach" the system by entering correct labels for incorrect predictions. The feedback data is saved in `localStorage`, allowing users to keep track of incorrect classifications and the correct labels.
+This project provides an interactive image classification system that allows users to provide feedback on predictions. While learning from feedback is a planned feature, the system currently saves feedback data in `localStorage` for future analysis. This offers users a way to interact with the system and track the correctness of classifications.
+
