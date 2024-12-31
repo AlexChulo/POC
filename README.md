@@ -1,14 +1,30 @@
 
-# Image Classification with Learning Feedback
+# Image Classification with Learning
 
-This project demonstrates how to use `ml5.js` for image classification with an interactive feedback system. Users can upload an image, get a classification prediction, and provide feedback on whether the prediction is correct or not. If the prediction is incorrect, users can supply the correct label, which will be saved for future reference.
+This project demonstrates how to use `ml5.js` for image classification with an interactive learning system. Users can upload multiple images, assign labels, train the model, and then use the trained model to classify new images.
 
 ## Features
 
-- **Image Upload**: Users can upload an image to be classified.
-- **Image Classification**: The app uses the `MobileNet` model from `ml5.js` to classify the image.
-- **Feedback Mechanism**: Users can provide feedback on whether the classification was correct or not.
-- **Future Learning from Feedback**: Plans to implement a learning system where user-provided labels will be used to retrain the model or for future analysis (to be developed).
+- **Image Upload**: Users can upload multiple images (at least 3) that represent the object or class to be classified.
+- **Image Classification**: The app uses the `MobileNet` model from `ml5.js` to classify the uploaded image.
+- **Training the Model**: The model learns from the labeled images provided by the user to classify new images accurately.
+- **Prediction**: After training, the model can predict the label of new images based on the data it has learned.
+
+## Requirements
+
+- A modern web browser (Google Chrome, Firefox, etc.) with JavaScript enabled.
+- The `ml5.js` library is used for image classification and machine learning functionalities.
+
+## Setup Instructions
+
+### 1. Download or Clone the Repository
+
+You can either clone or download this repository to your local machine.
+
+To clone the repository, run:
+
+```bash
+git clone https://github.com/AlexChulo/POC
 
 ## Requirements
 
@@ -41,7 +57,8 @@ Once you have the files, open the `index.html` file in your preferred web browse
 Your project directory should look like this:
 
 ```
-/image-classification
+/POC
+├── images
   ├── index.html
   ├── script.js
   ├── README.md
@@ -50,26 +67,26 @@ Your project directory should look like this:
 ### 4. How It Works
 
 #### Image Upload
-- Users can select an image file using the file input at the top of the page.
-- The image will be displayed on the page.
+- Users can select and upload multiple images (at least 3) that represent the object or class to be classified.
+- These images will be displayed on the page for the user to review.
 
 #### Image Classification
-- Once the image is uploaded, the system uses the `MobileNet` model from `ml5.js` to classify the image.
-- The predicted label and confidence score will be shown on the page.
+- Once the images are uploaded, users can assign a label to these images.
+- The model uses these labeled images to learn how to classify objects of that kind.
 
-#### Feedback Mechanism
-- After the classification, users can click the "Correct" button if the prediction is accurate.
-- If the prediction is incorrect, users can click the "Not Correct" button, which will reveal a text input field to provide the correct label.
+#### Training the Model
+- Once the user has uploaded and labeled at least 3 images, they can click the "Train" button to train the model with the images.
+- The model will learn from the uploaded images and use this data for future predictions.
 
-#### Saving Correct Labels
-- When a user provides a correct label for an incorrect prediction, the data (including the original prediction and the correct label) is saved in the browser’s `localStorage`.
-- This data can be used for future analysis or potentially for retraining the model in future updates (roadmap feature).
+#### Prediction
+- After the model has been trained with the labeled images, users can upload a new image for classification.
+- The model will predict the label of the new image based on the objects it has learned from the training set.
 
 #### Example Steps:
-1. Upload an image.
-2. View the classification result and feedback options.
-3. Mark the prediction as "Correct" or "Not Correct."
-4. If incorrect, provide the correct label and save it.
+1. Upload at least 3 images that represent the object or class to be classified.
+2. Provide a label for these images.
+3. Train the model using the uploaded and labeled images.
+4. Upload a new image to predict its label based on the trained model.
 
 ### 5. Customizing the Application
 
@@ -81,20 +98,19 @@ Your project directory should look like this:
 
 ### 6. Viewing the Feedback Data
 
-Feedback data (incorrect classifications and correct labels) is saved in the browser’s `localStorage`. You can inspect it through the browser's developer tools:
+The training data (images and labels) is used to teach the model, but you can inspect the progress or debug any issues using the browser's developer tools:
 
 1. Open the browser’s Developer Tools (usually by pressing `F12`).
-2. Go to the **Application** tab.
-3. Under **Storage**, click on **LocalStorage**.
-4. Look for the key `feedbackData` to see the stored feedback.
+2. Go to the Console tab to view any debug logs or messages related to the model training and prediction.
 
 ## Roadmap
 
-- **Learning from Feedback**: In the future, we plan to implement a learning system where the feedback data (incorrect classifications and correct labels) will be used to improve the model. This could involve retraining the model with the user-provided labels or analyzing the feedback data to improve future predictions.
+- **Improved Prediction Accuracy**:
+As more labeled images are provided, the model will become more accurate at predicting the labels of unseen images.
   
-- **Custom Model Training**: Eventually, the project will support retraining or fine-tuning the model with new data provided by users. This feature will allow users to enhance the model's accuracy over time.
+- **Custom Model Training**: In future updates, the project will support additional features like fine-tuning or retraining the model with new data provided by users to improve its prediction capabilities.
 
 ## Conclusion
 
-This project provides an interactive image classification system that allows users to provide feedback on predictions. While learning from feedback is a planned feature, the system currently saves feedback data in `localStorage` for future analysis. This offers users a way to interact with the system and track the correctness of classifications.
+This project provides an interactive image classification system where users can upload and label multiple images to train the model. Once the model has been trained with enough labeled data, it can predict the label of new, unseen images. The system offers a way for users to contribute labeled data, enabling the model to improve its accuracy over time.
 
