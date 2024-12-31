@@ -1,86 +1,90 @@
-let classifier;
-let imageElement = document.getElementById('image');
-let resultElement = document.getElementById('result');
-let correctButton = document.getElementById('correct-btn');
-let incorrectButton = document.getElementById('incorrect-btn');
-let correctInput = document.getElementById('correct-input');
-let correctLabelInput = document.getElementById('correct-label');
-let currentImageData = null; // To store the current image data
+let fileInput = document.getElementById("fileInput");
+let imageContainer = document.getElementById("imageContainer");
+let message = document.getElementById("message");
+let labelInput = document.getElementById("labelInput");
+let addButton = document.getElementById("addButton");
+let trainButton = document.getElementById("trainButton");
+let predictButton = document.getElementById("predictButton");
 
-function setup() {
-    classifier = ml5.imageClassifier('MobileNet', modelLoaded);
+let featureExtractor;
+let classifier;
+let uploadedImages = [];
+
+function loadImgFiles(event) {
+  imageContainer.innerHTML = "";
+  uploadedImages = [];
+  const files = event.target.files;
+
+  if (files.length === 0) {
+    message.innerHTML = "No files selected. Please upload images.";
+    addButton.disabled = true;
+    return;
+  }
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.onload = () => URL.revokeObjectURL(img.src);
+    imageContainer.appendChild(img);
+    uploadedImages.push(img);
+  }
+
+  message.innerHTML = `${files.length} image(s) uploaded. You can now add labels and train.`;
+  addButton.disabled = false;
+}
+
+function setupModel() {
+  featureExtractor = ml5.featureExtractor("MobileNet", modelLoaded);
+  classifier = featureExtractor.classification();
 }
 
 function modelLoaded() {
-    console.log('Model Loaded!');
+  message.innerHTML = "Model loaded. You can now add images and train.";
+  addButton.addEventListener("click", addImages);
+  trainButton.addEventListener("click", trainModel);
+  predictButton.addEventListener("click", predict);
 }
 
-document.getElementById('file-input').addEventListener('change', handleFileSelect);
-
-function handleFileSelect(event) {
-    let file = event.target.files[0];
-    if (file) {
-        let reader = new FileReader();
-        reader.onload = function (e) {
-            imageElement.src = e.target.result;
-            imageElement.style.display = 'block';
-            imageElement.onload = function () {
-                classifyFn();
-            };
-        };
-        reader.readAsDataURL(file);
-    }
+function addImages() {
+  const label = labelInput.value;
+  if (label.trim() === "") {
+    alert("Please enter a label");
+    return;
+  }
+  uploadedImages.forEach((img) => {
+    classifier.addImage(img, label);
+  });
+  message.innerHTML = `Added ${uploadedImages.length} image(s) with label: ${label}`;
+  trainButton.disabled = false;
 }
 
-function classifyFn() {
-    console.log('Classifying image...');
-    classifier.classify(imageElement)
-        .then(results => {
-            console.log('Classification results:', results);
-            let highestConfidenceResult = results.reduce((max, result) =>
-                result.confidence > max.confidence ? result : max,
-                { label: '', confidence: 0 }
-            );
-            resultElement.innerText = `Label: ${highestConfidenceResult.label}\nConfidence: ${(highestConfidenceResult.confidence * 100).toFixed(2)}%`;
-            currentImageData = highestConfidenceResult; // Store the current classification data
-        })
-        .catch(error => {
-            console.error('Classification error:', error);
-            resultElement.innerText = 'Error classifying image.';
-        });
-}
-
-function handleCorrect() {
-    alert('Correct! No further action needed.');
-    // You can store correct results if needed (optional)
-}
-
-function handleIncorrect() {
-    correctInput.style.display = 'block'; // Show the text input for the user to type the correct label
-}
-
-function saveCorrectLabel() {
-    const correctLabel = correctLabelInput.value;
-    if (correctLabel) {
-        // Save the image and correct label to local storage (or a database)
-        const feedbackData = {
-            imageData: currentImageData,
-            correctLabel: correctLabel
-        };
-
-        // Store feedback data in localStorage (you can modify this to store in a backend)
-        let feedbackStorage = JSON.parse(localStorage.getItem('feedbackData')) || [];
-        feedbackStorage.push(feedbackData);
-        localStorage.setItem('feedbackData', JSON.stringify(feedbackStorage));
-
-        alert('Label saved successfully!');
-
-        // Reset the input field and hide the section
-        correctLabelInput.value = '';
-        correctInput.style.display = 'none';
+function trainModel() {
+  message.innerHTML = "Training model...";
+  classifier.train((lossValue) => {
+    if (lossValue) {
+      message.innerHTML = `Model trained with loss: ${lossValue}`;
     } else {
-        alert('Please enter a valid label.');
+      message.innerHTML = "Model trained successfully.";
+      predictButton.disabled = false;
     }
+  });
 }
 
-setup();
+function predict() {
+  if (uploadedImages.length === 0) {
+    message.innerHTML = "Please upload an image to predict.";
+    return;
+  }
+
+  classifier.classify(uploadedImages[0], (error, result) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+    message.innerHTML = `Prediction: ${result[0].label} with confidence: ${result[0].confidence.toFixed(2)}`;
+  });
+}
+
+fileInput.addEventListener("change", loadImgFiles);
+setupModel();
